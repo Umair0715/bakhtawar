@@ -1,0 +1,12 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(255, 77, 125, 0.4);
+  outline-offset: 4px;
+}
