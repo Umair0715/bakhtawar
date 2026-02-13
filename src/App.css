@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
   color-scheme: light;
   --bg: #fff0f6;
-  --bg-deep: #ffe0ef;
   --ink: #2a0f1c;
   --accent: #ff4d7d;
   --accent-strong: #ff2a68;
   --accent-soft: #ffc3d6;
-  --card: rgba(255, 255, 255, 0.78);
+  --card: rgba(255, 255, 255, 0.82);
   --shadow: 0 25px 60px rgba(255, 77, 125, 0.2);
 }
 
@@ -31,11 +30,22 @@ body {
 .page {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 64px 24px 80px;
+}
+
+.page-celebration,
+.page-gift,
+.page-permission,
+.page-success {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.55) 0%, transparent 40%),
+    radial-gradient(circle at 90% 15%, rgba(255, 104, 149, 0.35) 0%, transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255, 184, 212, 0.5) 0%, transparent 45%),
+    linear-gradient(135deg, #ffd4e7 0%, #ffeef6 45%, #ffcde0 100%);
 }
 
 .glow {
@@ -47,10 +57,14 @@ body {
   z-index: 0;
 }
 
-.home {
+.home,
+.stage-card {
   width: min(1100px, 100%);
   position: relative;
   z-index: 1;
+}
+
+.home {
   display: grid;
   gap: 32px;
 }
@@ -159,6 +173,15 @@ body {
   margin: 12px 0 8px;
 }
 
+.main-title {
+  line-height: 1.05;
+  background: linear-gradient(135deg, #2a0f1c 0%, #c81655 45%, #ff2a68 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.5px;
+}
+
 .tag {
   font-weight: 600;
   text-transform: uppercase;
@@ -237,26 +260,140 @@ body {
   font-size: 1.2rem;
 }
 
-.no-zone {
-  position: relative;
-  min-height: 120px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 77, 125, 0.15);
-  padding: 24px;
-  overflow: hidden;
+.kiss-card,
+.form-card,
+.success-card {
+  width: min(680px, 100%);
+  margin: 0 auto;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 128, 167, 0.35);
+  box-shadow: 0 24px 56px rgba(170, 30, 90, 0.2);
+  padding: 28px;
+  display: grid;
+  gap: 16px;
+}
+
+.kiss-gif {
+  width: min(420px, 100%);
+  border-radius: 20px;
+  justify-self: center;
+  box-shadow: 0 16px 35px rgba(255, 77, 125, 0.28);
+}
+
+.kiss-card h2,
+.form-card h2,
+.success-card h2 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  color: #7d1442;
+}
+
+.kiss-card p,
+.form-text,
+.success-card p {
+  margin: 0;
+  color: #58253e;
+  line-height: 1.6;
+}
+
+.gift-options {
+  display: grid;
+  gap: 10px;
+}
+
+.gift-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff4f9;
+  border: 1px solid rgba(255, 113, 158, 0.35);
+}
+
+.gift-option input {
+  accent-color: #ff2a68;
+}
+
+.field-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.field-wrap label {
+  font-size: 0.95rem;
+  color: #6a2841;
+  font-weight: 500;
+}
+
+.field-wrap textarea,
+.field-wrap input {
+  width: 100%;
+  border: 1px solid rgba(255, 113, 158, 0.4);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #2a0f1c;
+}
+
+.field-wrap textarea:focus,
+.field-wrap input:focus {
+  outline: 2px solid rgba(255, 77, 125, 0.35);
+  border-color: #ff4d7d;
+}
+
+.summary-box {
+  display: grid;
+  gap: 8px;
+  background: #fff5f9;
+  border: 1px solid rgba(255, 113, 158, 0.32);
+  border-radius: 14px;
+  padding: 14px;
 }
 
 @media (max-width: 720px) {
+  .page {
+    padding: 32px 16px 40px;
+  }
+
   .hero {
-    padding: 24px;
+    padding: 20px;
+    gap: 20px;
   }
 
   .hero-art {
-    height: 220px;
+    height: 200px;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(2rem, 11vw, 2.7rem);
+    margin-top: 6px;
+  }
+
+  .subtitle {
+    font-size: 0.98rem;
+  }
+
+  .cta-row {
+    width: 100%;
+  }
+
+  .btn {
+    min-width: 120px;
   }
 
   .message-chip {
     text-align: center;
+  }
+
+  .kiss-card,
+  .form-card,
+  .success-card {
+    padding: 20px;
+    border-radius: 20px;
   }
 }
