@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion as Motion } from 'framer-motion'
 import SignatureCanvas from 'react-signature-canvas'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+
 const teaseMessages = [
   { text: 'Aisa nahi karo, main mar jaunga.', emoji: '🥺' },
   { text: 'Mat kro, Tumhein tumhari sweet c mummy ki qasam.', emoji: '🌸' },
@@ -66,6 +68,8 @@ export default function Home() {
   const [otherGift, setOtherGift] = useState('')
   const signaturePadRef = useRef(null)
   const [signatureError, setSignatureError] = useState('')
+  const [submitError, setSubmitError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submission, setSubmission] = useState(null)
 
   useEffect(() => {
@@ -99,8 +103,10 @@ export default function Home() {
     setStage('permission')
   }
 
-  const handlePermissionSubmit = (event) => {
+  const handlePermissionSubmit = async (event) => {
     event.preventDefault()
+    setSubmitError('')
+
     const pad = signaturePadRef.current
     if (!pad || pad.isEmpty()) {
       setSignatureError('Please add your signature first.')
@@ -119,12 +125,31 @@ export default function Home() {
       submittedAt: new Date().toISOString(),
     }
 
-    const existing = JSON.parse(localStorage.getItem('valentineResponses') || '[]')
-    existing.push(payload)
-    localStorage.setItem('valentineResponses', JSON.stringify(existing))
+    try {
+      setIsSubmitting(true)
 
-    setSubmission(payload)
-    setStage('success')
+      const response = await fetch(`${API_BASE_URL}/api/responses`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+
+      const result = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        const message = result?.message || 'Submission failed. Please try again.'
+        throw new Error(message)
+      }
+
+      setSubmission(payload)
+      setStage('success')
+    } catch (error) {
+      setSubmitError(error.message || 'Unable to connect to server.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleClearSignature = () => {
@@ -303,15 +328,24 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                I knew it! You made my day. 💖
+                I knew it! 💖
               </Motion.h2>
               <Motion.p
+                className="celebration-highlight"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                Bakhtwar, tumhari smile meri favorite feeling hai. Is Valentine pe bas ek
-                hi wish hai: hum dono ka har din itna hi pyara rahe.
+                Congratulations Bakhtawar, You are now officially Umair&apos;s Valentine
+                forever, always, and beyond. 💖
+              </Motion.p>
+              <Motion.p
+                className="form-text"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
+              >
+                Chalo ab neechy walay button par click karo.
               </Motion.p>
               <Motion.button 
                 className="btn btn-yes" 
@@ -338,7 +372,7 @@ export default function Home() {
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
             <Motion.form 
-              className="form-card" 
+              className="form-card gift-form-card" 
               onSubmit={handleGiftSubmit}
               initial={{ rotateY: -10 }}
               animate={{ rotateY: 0 }}
@@ -471,6 +505,7 @@ export default function Home() {
                   />
                 </div>
                 {signatureError && <p className="error-text">{signatureError}</p>}
+                {submitError && <p className="error-text">{submitError}</p>}
                 <Motion.button
                   type="button"
                   className="btn btn-no inline signature-clear"
@@ -484,13 +519,14 @@ export default function Home() {
               <Motion.button 
                 type="submit" 
                 className="btn btn-yes"
+                disabled={isSubmitting}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Final Submit
+                {isSubmitting ? 'Submitting...' : 'Final Submit'}
               </Motion.button>
             </Motion.form>
           </Motion.section>
@@ -516,17 +552,17 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                Bakhtawar, You Are My Happiness 🌹
+                Thanks Bakhtawar for your time 🌹
               </Motion.h2>
               <Motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                Tumhara yes aur tumhari choice ne mera din bana diya. Ab bas tum smile
-                karti raho, baqi sab main sambhal lunga.
+                Your gift is on the way. Bas tum hasti muskurati raho aur mujhe aise hi
+                bohat saara pyaar karti raho. Love you.
               </Motion.p>
-              <Motion.div 
+              {/* <Motion.div 
                 className="summary-box"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -537,7 +573,7 @@ export default function Home() {
                   {submission.customGift || submission.giftChoice}
                 </p>
                 <p>Love approved by: {submission.person}</p>
-              </Motion.div>
+              </Motion.div> */}
             </Motion.div>
           </Motion.section>
         )}
