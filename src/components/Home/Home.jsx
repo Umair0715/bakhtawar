@@ -279,39 +279,102 @@ export default function Home() {
           <Motion.section
             key="celebration"
             className="stage-card"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            <div className="kiss-card">
-              <img src="/kiss-gif.gif" alt="Celebration kiss" className="kiss-gif" />
-              <h2>I knew it! You made my day. 💖</h2>
-              <p>
+            <Motion.div 
+              className="kiss-card"
+              initial={{ rotateY: -10 }}
+              animate={{ rotateY: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <Motion.img 
+                src="/kiss-gif.gif" 
+                alt="Celebration kiss" 
+                className="kiss-gif"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              />
+              <Motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                I knew it! You made my day. 💖
+              </Motion.h2>
+              <Motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
                 Bakhtwar, tumhari smile meri favorite feeling hai. Is Valentine pe bas ek
                 hi wish hai: hum dono ka har din itna hi pyara rahe.
-              </p>
-              <button className="btn btn-yes" onClick={() => setStage('gift')}>
+              </Motion.p>
+              <Motion.button 
+                className="btn btn-yes" 
+                onClick={() => setStage('gift')}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 Gift for You
-              </button>
-            </div>
+              </Motion.button>
+            </Motion.div>
           </Motion.section>
         )}
 
         {stage === 'gift' && (
           <Motion.section
             key="gift"
-            className="stage-card"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            className="stage-card overflow-y-auto"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            <form className="form-card" onSubmit={handleGiftSubmit}>
-              <h2>Choose Your Gift 🎁</h2>
-              <p className="form-text">Jo tum select karo gi wohi final.</p>
+            <Motion.form 
+              className="form-card" 
+              onSubmit={handleGiftSubmit}
+              initial={{ rotateY: -10 }}
+              animate={{ rotateY: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <Motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Choose Your Gift 🎁
+              </Motion.h2>
+              <Motion.p 
+                className="form-text"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                Jo tum select karo gi wohi final.
+              </Motion.p>
 
-              <div className="gift-options">
-                {giftOptions.map((gift) => (
-                  <label key={gift} className="gift-option">
+              <Motion.div 
+                className="gift-options"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                {giftOptions.map((gift, index) => (
+                  <Motion.label 
+                    key={gift} 
+                    className="gift-option"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
                     <input
                       type="radio"
                       name="gift"
@@ -320,12 +383,18 @@ export default function Home() {
                       onChange={(event) => setSelectedGift(event.target.value)}
                     />
                     <span>{gift}</span>
-                  </label>
+                  </Motion.label>
                 ))}
-              </div>
+              </Motion.div>
 
               {selectedGift.includes('Other') && (
-                <div className="field-wrap">
+                <Motion.div 
+                  className="field-wrap"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
                   <label htmlFor="otherGift">Bakhtawar tm mjhe likh kr btao tmhein kya gift chiye.</label>
                   <textarea
                     id="otherGift"
@@ -335,13 +404,21 @@ export default function Home() {
                     placeholder="Apna gift idea yahan likho..."
                     required
                   />
-                </div>
+                </Motion.div>
               )}
 
-              <button type="submit" className="btn btn-yes">
+              <Motion.button 
+                type="submit" 
+                className="btn btn-yes"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 Submit Gift Choice
-              </button>
-            </form>
+              </Motion.button>
+            </Motion.form>
           </Motion.section>
         )}
 
@@ -349,18 +426,41 @@ export default function Home() {
           <Motion.section
             key="permission"
             className="stage-card"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            <form className="form-card" onSubmit={handlePermissionSubmit}>
-              <h2>Ek Choti Si Request ✍️</h2>
-              <p className="form-text">
+            <Motion.form 
+              className="form-card" 
+              onSubmit={handlePermissionSubmit}
+              initial={{ rotateY: -10 }}
+              animate={{ rotateY: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <Motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Ek Choti Si Request ✍️
+              </Motion.h2>
+              <Motion.p 
+                className="form-text"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
                 Main gift bhejny ko ready hon but mjhe tmhari mama sy permission chiye,
                 mjhe unsy dar lgta tw naraz ni krna chahta hun.
-              </p>
-              <div className="field-wrap">
-                <label>Your Signature</label>
+              </Motion.p>
+              <Motion.div 
+                className="field-wrap"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <label>Aunty k Signature</label>
                 <div className="signature-wrap">
                   <SignatureCanvas
                     ref={signaturePadRef}
@@ -371,18 +471,28 @@ export default function Home() {
                   />
                 </div>
                 {signatureError && <p className="error-text">{signatureError}</p>}
-                <button
+                <Motion.button
                   type="button"
                   className="btn btn-no inline signature-clear"
                   onClick={handleClearSignature}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Clear Signature
-                </button>
-              </div>
-              <button type="submit" className="btn btn-yes">
+                </Motion.button>
+              </Motion.div>
+              <Motion.button 
+                type="submit" 
+                className="btn btn-yes"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 Final Submit
-              </button>
-            </form>
+              </Motion.button>
+            </Motion.form>
           </Motion.section>
         )}
 
@@ -390,32 +500,45 @@ export default function Home() {
           <Motion.section
             key="success"
             className="stage-card"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            <div className="success-card">
-              <h2>All Done, My Valentine 🌹</h2>
-              <p>Sab details save ho gai hain. Tumhari choice locked hai.</p>
-              <div className="summary-box">
+            <Motion.div 
+              className="success-card"
+              initial={{ rotateY: -10 }}
+              animate={{ rotateY: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <Motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Bakhtawar, You Are My Happiness 🌹
+              </Motion.h2>
+              <Motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                Tumhara yes aur tumhari choice ne mera din bana diya. Ab bas tum smile
+                karti raho, baqi sab main sambhal lunga.
+              </Motion.p>
+              <Motion.div 
+                className="summary-box"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
                 <p>
                   <strong>Gift:</strong>{' '}
                   {submission.customGift || submission.giftChoice}
                 </p>
-                <p>
-                  <strong>Signature:</strong>
-                </p>
-                <img
-                  src={submission.signature}
-                  alt="Submitted signature"
-                  className="signature-preview"
-                />
-                <p>
-                  <strong>Saved In:</strong> localStorage key{' '}
-                  <code>valentineResponses</code>
-                </p>
-              </div>
-            </div>
+                <p>Love approved by: {submission.person}</p>
+              </Motion.div>
+            </Motion.div>
           </Motion.section>
         )}
       </AnimatePresence>
