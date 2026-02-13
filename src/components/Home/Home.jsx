@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion as Motion } from 'framer-motion'
+import SignatureCanvas from 'react-signature-canvas'
 
 const teaseMessages = [
   { text: 'Aisa nahi karo, main mar jaunga.', emoji: '🥺' },
@@ -63,7 +64,8 @@ export default function Home() {
 
   const [selectedGift, setSelectedGift] = useState('')
   const [otherGift, setOtherGift] = useState('')
-  const [signature, setSignature] = useState('')
+  const signaturePadRef = useRef(null)
+  const [signatureError, setSignatureError] = useState('')
   const [submission, setSubmission] = useState(null)
 
   useEffect(() => {
@@ -99,14 +101,21 @@ export default function Home() {
 
   const handlePermissionSubmit = (event) => {
     event.preventDefault()
-    if (!signature.trim()) return
+    const pad = signaturePadRef.current
+    if (!pad || pad.isEmpty()) {
+      setSignatureError('Please add your signature first.')
+      return
+    }
+
+    const signatureDataUrl = pad.toDataURL('image/png')
+    setSignatureError('')
 
     const payload = {
       person: 'Bakhtwar',
       accepted: true,
       giftChoice: selectedGift,
       customGift: selectedGift.includes('Other') ? otherGift.trim() : '',
-      signature: signature.trim(),
+      signature: signatureDataUrl,
       submittedAt: new Date().toISOString(),
     }
 
@@ -116,6 +125,11 @@ export default function Home() {
 
     setSubmission(payload)
     setStage('success')
+  }
+
+  const handleClearSignature = () => {
+    signaturePadRef.current?.clear()
+    setSignatureError('')
   }
 
   return (
@@ -346,15 +360,24 @@ export default function Home() {
                 mjhe unsy dar lgta tw naraz ni krna chahta hun.
               </p>
               <div className="field-wrap">
-                <label htmlFor="signature">Your Signature / Name</label>
-                <input
-                  id="signature"
-                  type="text"
-                  value={signature}
-                  onChange={(event) => setSignature(event.target.value)}
-                  placeholder="Type your signature"
-                  required
-                />
+                <label>Your Signature</label>
+                <div className="signature-wrap">
+                  <SignatureCanvas
+                    ref={signaturePadRef}
+                    penColor="#8b1f4f"
+                    canvasProps={{
+                      className: 'signature-canvas',
+                    }}
+                  />
+                </div>
+                {signatureError && <p className="error-text">{signatureError}</p>}
+                <button
+                  type="button"
+                  className="btn btn-no inline signature-clear"
+                  onClick={handleClearSignature}
+                >
+                  Clear Signature
+                </button>
               </div>
               <button type="submit" className="btn btn-yes">
                 Final Submit
@@ -380,8 +403,13 @@ export default function Home() {
                   {submission.customGift || submission.giftChoice}
                 </p>
                 <p>
-                  <strong>Signature:</strong> {submission.signature}
+                  <strong>Signature:</strong>
                 </p>
+                <img
+                  src={submission.signature}
+                  alt="Submitted signature"
+                  className="signature-preview"
+                />
                 <p>
                   <strong>Saved In:</strong> localStorage key{' '}
                   <code>valentineResponses</code>
