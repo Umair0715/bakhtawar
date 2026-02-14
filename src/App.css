@@ -221,8 +221,18 @@ body {
 
 .subtitle {
   margin: 0 0 24px;
-  color: #5d2b41;
+  font-size: 1.5rem;
+  font-weight: 600;
   max-width: 520px;
+  background: linear-gradient(135deg, #c81655 0%, #ff4d7d 50%, #ff2a68 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.8px;
+  line-height: 1.4;
+  font-family: 'Dancing Script', cursive;
+  text-shadow: 2px 2px 8px rgba(255, 77, 125, 0.15);
+  position: relative;
 }
 
 .cta-row {

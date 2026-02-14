@@ -17,9 +17,9 @@ const teaseMessages = [
 
 const giftOptions = [
   'Jewelry set',
-  'Skincare hamper',
   'Chocolate bouquet',
   'Perfume gift box',
+  'Upar waly sab options',
   'Other (main apni marzi ka khud bataongi)',
 ]
 
@@ -244,7 +244,7 @@ export default function Home() {
                   </Motion.button>
                   {!escaped && (
                     <Motion.button
-                      className="btn btn-no inline"
+                      className="btn btn-no "
                       onMouseEnter={handleNoHover}
                       onFocus={handleNoHover}
                       whileHover={{ scale: 1.02 }}
@@ -261,17 +261,13 @@ export default function Home() {
                 className="btn btn-no floating"
                 onMouseEnter={handleNoHover}
                 onFocus={handleNoHover}
+                onClick={handleNoHover}
                 whileHover={{ scale: 1.02 }}
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
                   left: noPos.x,
                   top: noPos.y,
-                }}
-                transition={{
-                  left: { type: 'spring', stiffness: 300, damping: 25 },
-                  top: { type: 'spring', stiffness: 300, damping: 25 },
-                  opacity: { duration: 0.2 },
                 }}
               >
                 No
@@ -332,11 +328,12 @@ export default function Home() {
               </Motion.h2>
               <Motion.p
                 className="celebration-highlight"
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                Congratulations Bakhtawar, You are now officially Umair&apos;s Valentine
+                Mujhe pta tha tm yes hi choose krogi qk no ka option mene tmhein diya ni 😏. 
+                Bakhtawar, You are now officially Umair&apos;s Valentine
                 forever, always, and beyond. 💖
               </Motion.p>
               <Motion.p
