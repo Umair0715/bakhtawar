@@ -190,6 +190,21 @@ export default function Home() {
                     <span>Han han, yes karo! Perfect choice! 🥰</span>
                   </Motion.div>
                 )}
+                {currentMessage && !yesHovered && (
+                  <Motion.div
+                    className="message-chip"
+                    key={`${currentMessage.text}-${messageIndex}`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <span className="emoji" aria-hidden="true">
+                      {currentMessage.emoji}
+                    </span>
+                    <span>{currentMessage.text}</span>
+                  </Motion.div>
+                )}
               </AnimatePresence>
             </div>
 
@@ -273,26 +288,6 @@ export default function Home() {
                 No
               </Motion.button>
             )}
-
-            <div className="message-slot" aria-live="polite">
-              <AnimatePresence mode="wait">
-                {currentMessage && (
-                  <Motion.div
-                    className="message-chip"
-                    key={`${currentMessage.text}-${messageIndex}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -18 }}
-                    transition={{ duration: 0.35 }}
-                  >
-                    <span className="emoji" aria-hidden="true">
-                      {currentMessage.emoji}
-                    </span>
-                    <span>{currentMessage.text}</span>
-                  </Motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </Motion.main>
         )}
 
