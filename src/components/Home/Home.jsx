@@ -549,15 +549,18 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                Thanks Bakhtawar for your time 🌹
+                <p>All Done Bakhtawar,</p>
+                Thanks for your time 🌹
               </Motion.h2>
               <Motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                Your gift is on the way. Bas tum hasti muskurati raho aur mujhe aise hi
-                bohat saara pyaar karti raho. Love you.
+                Your gift is on the way. hamesha hasti muskurati raho sirf mere sath kisi or sath tw tmhein keeray par jayen. aur mujhe aise hi
+                bohat saara pyaar karti raho, <span style={{
+                  color: '#ff4d7d'
+                }}>Love you</span>.
               </Motion.p>
               {/* <Motion.div 
                 className="summary-box"
