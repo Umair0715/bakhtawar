@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion as Motion } from 'framer-motion'
 import SignatureCanvas from 'react-signature-canvas'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://b-valentine-server-production.up.railway.app'
 
 const teaseMessages = [
   { text: 'Aisa nahi karo, main mar jaunga.', emoji: '🥺' },
